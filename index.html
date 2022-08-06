@@ -291,7 +291,7 @@ function calc_hyperburning_complete_rate(start_level, cur_level, cur_exp_rate) {
 
     let complete_rate = (gained_exp / whole_of_hyperburning_exp_amount) * 100; // 달성률
 
-    return complete_rate.toFixed(2) // 반환
+    return String(complete_rate.toFixed(2))+"%" // 반환
 }
 </script>
 
