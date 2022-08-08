@@ -29,10 +29,6 @@ function calc_amount_mob(cur_level, cur_exp_rate, mob_exp, exp_coupon, exp_weath
         addition_exp += 10
     } // 경축비
 
-    if (exp_potion === "0");
-    else if(exp_potion === "1"){
-        addition_exp += 10
-    } // 경축비
 
     if (zero === "0");
     else if(zero === "1"){
@@ -58,6 +54,11 @@ function calc_amount_mob(cur_level, cur_exp_rate, mob_exp, exp_coupon, exp_weath
     else if(elf === "2"){
         addition_exp += 15
     } // 메르 링크
+
+    if (pendant === "0");
+    else if(pendant === "1"){
+        addition_exp += 30
+    }
 
     if (ring === "0");
     else if(ring === "1"){
@@ -99,9 +100,7 @@ function calc_amount_mob(cur_level, cur_exp_rate, mob_exp, exp_coupon, exp_weath
     addition_exp += parseFloat(hyper) // 하이퍼
     addition_exp += parseFloat(union) // 유니온 점령
     addition_exp += parseFloat(user) // 추가
-
     
-
     mob_exp = Math.round(parseInt(mob_exp) * (1 + addition_exp * 0.01))
 
     if(cur_exp_rate >= 100 || cur_exp_rate < 0){
