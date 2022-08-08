@@ -9,15 +9,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>레벨업 계산기</title>
     </head>
-<body style = "margin-left: 100px;">
+<body style = "text-align: center;">
 
+<br>
 <h2>레벨업 계산기</h2>
 <br>
 
 
-<div style = "display: flex">
-<div style = "width: 350px; margin-right: 1rem;">
-<div style = "width: 350px">
+<div style = "display: flex; flex-wrap: wrap; text-align: center; justify-content: center;">
+<div style = "width: 460px; margin-right: 1rem;">
+<div style = "width: 460px">
 <table class = "table">
     <thead>
         <tr>
@@ -60,11 +61,11 @@
     </tbody>
 </table>
 </div>
-<div style = "width: 350px">
+<div style = "width: 460px">
     <table class = "table">
         <thead>
             <tr>
-                <th colspan="2" style ="text-align: center;">계산 결과</th>
+                <th colspan="2" style ="text-align: center; width: 250px;">계산 결과</th>
             </tr>
         </thead>
         <tbody>
@@ -72,7 +73,7 @@
                 <td>
                     <p>마릿수</p>
                 </td>
-                <td>
+                <td style = "width: 250px;">
                     <pre id="amount_mob" style="font-size: 16px;"></pre>
                 </td>
             </tr>
@@ -80,7 +81,7 @@
                 <td>
                     <p>레벨업 소요 시간</p>
                 </td>
-                <td>
+                <td style = "width: 250px;">
                     <pre id="hour" style="font-size: 16px;"></pre>
                 </td>
             </tr>
@@ -92,6 +93,7 @@
 document.getElementById("hour").innerHTML = String((calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value) / (parseFloat(document.getElementById("hunt_per6min").value) * 10)).toFixed(2)) + " 시간";
 console.log(parseFloat(document.getElementById("amount_mob").value) * 10)'>계산</button>
     </div>
+    <br>
 </div>
 <div style = "width : 460px">
 <table class = "table">
