@@ -1,340 +1,285 @@
 <!DOCTYPE html>
 <html>
-<body>
+    <head>
+        <link href = "../CSS/calcLevelUp.css" rel = "stylesheet" type = "text/css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src = "../js/expTable.js"></script>
+        <script src = "../js/calcLevelUp.js"></script>
+    </head>
+<body style = "margin-left: 100px;">
 
 <h2>레벨업 계산기</h2>
+<br>
 
-<pre id="amount_mob" style="font-size: 16px;">여기에 마릿수 출력</pre>
 
-<script>
-  
-  const exp_table_to_250 = [ // 0부터 250까지의 경험치 테이블 
-    0,
-    15,
-    34,
-    57,
-    92,
-    135,
-    372,
-    560,
-    840,
-    1242,
-    1242,
-    1242,
-    1242,
-    1242,
-    1242,
-    1490,
-    1788,
-    2145,
-    2574,
-    3088,
-    3705,
-    4446,
-    5335,
-    6402,
-    7682,
-    9218,
-    11061,
-    13273,
-    15927,
-    19112,
-    19112,
-    19112,
-    19112,
-    19112,
-    19112,
-    22934,
-    27520,
-    33024,
-    39628,
-    47553,
-    51357,
-    55465,
-    59902,
-    64694,
-    69869,
-    75458,
-    81494,
-    88013,
-    95054,
-    102658,
-    110870,
-    119739,
-    129318,
-    139663,
-    150836,
-    162902,
-    175934,
-    190008,
-    205208,
-    221624,
-    221624,
-    221624,
-    221624,
-    221624,
-    221624,
-    238245,
-    256113,
-    275321,
-    295970,
-    318167,
-    342029,
-    367681,
-    395257,
-    424901,
-    456768,
-    488741,
-    522952,
-    559558,
-    598727,
-    640637,
-    685481,
-    733464,
-    784806,
-    839742,
-    898523,
-    961419,
-    1028718,
-    1100728,
-    1177778,
-    1260222,
-    1342136,
-    1429374,
-    1522283,
-    1621231,
-    1726611,
-    1838840,
-    1958364,
-    2085657,
-    2221224,
-    2365603,
-    2365603,
-    2365603,
-    2365603,
-    2365603,
-    2365603,
-    2519367,
-    2683125,
-    2857528,
-    3043267,
-    3241079,
-    3451749,
-    3676112,
-    3915059,
-    4169537,
-    4440556,
-    4729192,
-    5036589,
-    5363967,
-    5712624,
-    6083944,
-    6479400,
-    6900561,
-    7349097,
-    7826788,
-    8335529,
-    8877338,
-    9454364,
-    10068897,
-    10723375,
-    11420394,
-    12162719,
-    12953295,
-    13795259,
-    14691950,
-    15646926,
-    16663976,
-    17747134,
-    18900697,
-    20129242,
-    21437642,
-    22777494,
-    24201087,
-    25713654,
-    27320757,
-    29028304,
-    30842573,
-    32770233,
-    34818372,
-    36994520,
-    39306677,
-    41763344,
-    44373553,
-    47146900,
-    50093581,
-    53224429,
-    56550955,
-    60085389,
-    63840725,
-    67830770,
-    72070193,
-    76574580,
-    81360491,
-    86445521,
-    91848366,
-    97588888,
-    103688193,
-    110168705,
-    117054249,
-    124370139,
-    132143272,
-    138750435,
-    145687956,
-    152972353,
-    160620970,
-    168652018,
-    177084618,
-    185938848,
-    195235790,
-    204997579,
-    215247457,
-    226009829,
-    237310320,
-    249175836,
-    261634627,
-    274716358,
-    288452175,
-    302874783,
-    318018522,
-    333919448,
-    350615420,
-    368146191,
-    386553500,
-    405881175,
-    426175233,
-    447483994,
-    469858193,
-    493351102,
-    518018657,
-    543919589,
-    571115568,
-    2207026470,
-    2471869646,
-    2768494003,
-    3100713283,
-    3472798876,
-    3889534741,
-    4356278909,
-    4879032378,
-    5464516263,
-    6120258214,
-    9792413142,
-    10869578587,
-    12065232231,
-    13392407776,
-    14865572631,
-    19325244420,
-    21064516417,
-    22960322894,
-    25026751954,
-    27279159629,
-    43646655406,
-    46701921284,
-    49971055773,
-    53469029677,
-    57211861754,
-    74375420280,
-    78094191294,
-    81998900858,
-    86098845900,
-    90403788195,
-    144646061112,
-    148985442945,
-    153455006233,
-    158058656419,
-    162800416111,
-    211640540944,
-    217989757172,
-    224529449887,
-    231265333383,
-    238203293384,
-    381125269414,
-    392559027496,
-    404335798320,
-    416465872269,
-    428959848437,
-    557647802968,
-    574377237057,
-    591608554168,
-    609356810793,
-    627637515116,
-    1004220024186,
-    1034346624911,
-    1065377023657,
-    1097338334367,
-    1130258484398,
-    1164166238930,
-    1199091226096,
-    1235063962878,
-    1272115881764,
-    1310279358220,
-    2902427248153,
-    2931451520634,
-    2960766035840,
-    2990373696198,
-    3020277433159,
-    3050480207490,
-    3080985009564,
-    3111794859659,
-    3142912808255,
-    3174341936337,
-    6412170711400,
-    6476292418514,
-    6541055342699,
-    6606465896125,
-    6672530555086,
-    13478511721273,
-    14826362893400,
-    16308999182740,
-    17939899101014,
-    19733889011115,
-    39862455802452,
-    43848701382697,
-    48233571520966,
-    53056928673062,
-    58362621540368,
-    117892495511543,
-    129681745062697,
-    142649919568966,
-    156914911525862,
-    172606402678448,
-    348664933410464,
-    383531426751510,
-    421884569426661,
-    464073026369327,
-    510480329006259,
-    1031170264592640,
-    1134287291051900,
-    1247716020157090,
-    1372487622172800,
-    2058731433259200]
+<div style = "display: flex">
+<div style = "width: 350px; margin-right: 1rem;">
+<div style = "width: 350px">
+<table class = "table">
+    <thead>
+        <tr>
+            <th colspan="2" style ="text-align: center;">캐릭터 상태</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <p>현재 레벨</p>
+            </td>
+            <td>
+                <input type="number" class="form-control" id="cur_level" style = "width: 200px;" min = "0" max = "300" placeholder="현재 레벨">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>현재 경험치</p>
+            </td>
+            <td>
+                <input type="number" class="form-control" id="cur_exp_rate" style = "width: 200px;" min = "0" max = "100" placeholder="현재 경험치 %">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>몹 경험치</p>
+            </td>
+            <td>
+                <input type="number" class="form-control" id="mob_exp" style = "width: 200px;" min = "1" placeholder="몹 경험치">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>6분 마릿수</p>
+            </td>
+            <td>
+                <input type="number" class="form-control" id="hunt_per6min" style = "width: 200px;" min = "1" placeholder="6분 사냥 마릿수" value = "1">
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<div style = "width: 350px">
+    <table class = "table">
+        <thead>
+            <tr>
+                <th colspan="2" style ="text-align: center;">계산 결과</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <p>마릿수</p>
+                </td>
+                <td>
+                    <pre id="amount_mob" style="font-size: 16px;"></pre>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>레벨업 소요 시간</p>
+                </td>
+                <td>
+                    <pre id="hour" style="font-size: 16px;"></pre>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <div class ="d-grid gap-2">
+        <button type="button" class = "btn btn-success" onclick='document.getElementById("amount_mob").innerHTML = String(calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value)) + " 마리";
+document.getElementById("hour").innerHTML = String((calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value) / (parseFloat(document.getElementById("hunt_per6min").value) * 10)).toFixed(2)) + " 시간";
+console.log(parseFloat(document.getElementById("amount_mob").value) * 10)'>계산</button>
+    </div>
+</div>
+<div style = "width : 460px">
+<table class = "table">
+    <thead>
+        <tr>
+            <th scope = "col"></th>
+            <th scope = "col" style ="text-align: center;">종류</th>
+            <th scope = "col" style ="text-align: center;">세부</th>
+        </tr>
 
-function calc_amount_mob(cur_level, cur_exp_rate, mob_exp, addition_exp) {
-    cur_exp_rate = parseFloat(cur_exp_rate)
-    cur_level = parseInt(cur_level)
-    mob_exp = Math.round(parseInt(mob_exp) * (1 + parseFloat(addition_exp) * 0.01))
-
-    if(cur_exp_rate >= 100 || cur_exp_rate < 0){
-        return "유효하지 않은 경험치 % 값입니다."
-    }
-
-    let cur_exp_amount = exp_table_to_250[cur_level] * (cur_exp_rate * 0.01); // 현재 경험치량
-
-    let remain_exp = exp_table_to_250[cur_level] - cur_exp_amount
-
-    let amount_mob = Math.round(remain_exp / mob_exp)
-
-    return amount_mob
-
-}
-</script>
-
-<p>현재 레벨 <input type="number" id="cur_level" min="1" max="300"></p>
-<p>현재 경험치 <input type="number" id="cur_exp_rate" min="0" max="100">%</p>
-<p>몹 경험치 <input type="number" id="mob_exp" min="1"></p>
-<p>추가 경험치 <input type="number" id="addition_exp" min="1">%</p>
-
-<button type="button" onclick='document.getElementById("amount_mob").innerHTML = calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("addition_exp").value)'>계산</button>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img src = "../images/icons/2xCoupon.png">
+            </td>
+            <td>
+                경험치 쿠폰
+            </td>
+            <td>
+                <select id = "exp_coupon" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">1.5배 경험치 쿠폰</option>
+                    <option value="2">2배 경험치 쿠폰</option>
+                    <option value="3">3배 경험치 쿠폰</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/expWeather.png">
+            </td>
+            <td>
+                경험치 뿌리기
+            </td>
+            <td>
+                <select id = "exp_weather" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">있음</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/exGold.png">
+            </td>
+            <td>
+                익스트림 골드
+            </td>
+            <td>
+                <select id = "exGold" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">있음</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/expPotion.png">
+            </td>
+            <td>
+                경험 축적의 비약
+            </td>
+            <td>
+                <select id = "expPotion" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">있음</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/zero.png">
+            </td>
+            <td>
+                제로 유니온
+            </td>
+            <td>
+                <select  id = "zero" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">B랭크</option>
+                    <option value="2">A랭크</option>
+                    <option value="3">S랭크</option>
+                    <option value="4">SS랭크</option>
+                    <option value="5">SSS랭크</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/elf.png">
+            </td>
+            <td>
+                메르세데스 링크
+            </td>
+            <td>
+                <select id = "elf" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">1 레벨</option>
+                    <option value="2">2 레벨</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/pendant.png">
+            </td>
+            <td>
+                정령의 펜던트
+            </td>
+            <td>
+                <select id = "pendant" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">풀 충전</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/ring.png">
+            </td>
+            <td>
+                혈맹의 반지
+            </td>
+            <td>
+                <select id = "ring" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">있음</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/burning.png">
+            </td>
+            <td>
+                필드 버닝
+            </td>
+            <td>
+                <select id = "burning" class="form-select" aria-label="Default select example" style = "width: 200px;">
+                    <option selected value = "0">없음</option>
+                    <option value="1">1 단계</option>
+                    <option value="2">2 단계</option>
+                    <option value="3">3 단계</option>
+                    <option value="4">4 단계</option>
+                    <option value="5">5 단계</option>
+                    <option value="6">6 단계</option>
+                    <option value="7">7 단계</option>
+                    <option value="8">8 단계</option>
+                    <option value="9">9 단계</option>
+                    <option value="10">10 단계</option>
+                  </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/ring.png">
+            </td>
+            <td>
+                경험치 하이퍼 스탯
+            </td>
+            <td>
+                <input type="number" class="form-control" id="hyper" style = "width: 200px;" min = "0" max = "10" placeholder="하이퍼 스탯 경험치 %" value = "0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/union.png">
+            </td>
+            <td>
+                유니온 경험치 점령
+            </td>
+            <td>
+                <input type="number" class="form-control" id="union" style = "width: 200px;" min = "0" max = "10" placeholder="유니온 점령 경험치 %" value = "0">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src = "../images/icons/holy.png">
+            </td>
+            <td>
+                추가 경험치
+            </td>
+            <td>
+                <input type="number" class="form-control" id="user" style = "width: 200px;" min = "0" max = "300" placeholder="추가 경험치 %" value = "0">
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</div>
 </body>
 </html>
