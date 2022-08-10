@@ -86,7 +86,7 @@ function do_jaehoek() {
 
 function validate_input_value() {
   let cur_level = parseInt(document.getElementById("cur_level").value);
-  let cur_exp_rate = parseFloat(document.getElementById("cur_exp_rate").value);
+  let cur_exp_rate = document.getElementById("cur_exp_rate").value;
   let mob_exp = parseInt(document.getElementById("mob_exp").value);
   let hunt_per6min = parseInt(document.getElementById("hunt_per6min").value);
 
@@ -96,7 +96,7 @@ function validate_input_value() {
     document.getElementById("30min").innerHTML = "";
   }
 
-  if (cur_level && cur_exp_rate && mob_exp) {
+  if (cur_level && cur_exp_rate != "" && mob_exp) {
     if (!hunt_per6min) {
       return 1;
     } else {
