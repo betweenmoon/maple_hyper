@@ -1,12 +1,14 @@
-
-table, td {
-    border: 1px solid #333;
-    border-collapse: collapse;
-    padding: 3px;
+table,
+td {
+  border: 1px solid #333;
+  border-collapse: collapse;
+  vertical-align: middle;
 }
 th {
-    border: 1px solid #333;
-    border-collapse: collapse;
+  border: 1px solid #333;
+  border-collapse: collapse;
 }
 
-
+.nomargin {
+  margin: 0px;
+}

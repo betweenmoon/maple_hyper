@@ -1,118 +1,115 @@
-function calc_amount_mob(cur_level, cur_exp_rate, mob_exp, exp_coupon, exp_weather, ex_gold, exp_potion, zero, elf, pendant, ring, burning, hyper, union, user, hunt) {
-    cur_exp_rate = parseFloat(cur_exp_rate)
-    cur_level = parseInt(cur_level)
-    let addition_exp = 0;
+function calc_amount_mob(cur_level, cur_exp_rate, mob_exp) {
+  cur_exp_rate = parseFloat(cur_exp_rate);
+  cur_level = parseInt(cur_level);
+  let addition_exp = 100;
 
-    if (exp_coupon === "0");
-    else if(exp_coupon === "1"){
-        addition_exp += 50
+  const exp_rate_all = get_exp_rate_all();
+
+  for (let i = 0; i < 12; i++) {
+    addition_exp += exp_rate_all[i];
+  }
+
+  mob_exp = Math.round(parseInt(mob_exp) * (addition_exp * 0.01));
+
+  let cur_exp_amount = exp_table[cur_level] * (cur_exp_rate * 0.01); // 현재 경험치량
+
+  let remain_exp = exp_table[cur_level] - cur_exp_amount;
+
+  let amount_mob = Math.round(remain_exp / mob_exp);
+
+  return amount_mob;
+}
+
+function get_total_additional_exp() {
+  let a = parseFloat(document.getElementById("total_additional_exp").innerHTML);
+  return a;
+}
+
+function get_exp_rate_all() {
+  let exp_rate_all = [];
+  exp_rate_all.push(
+    parseFloat(document.getElementById("exp_coupon_rate").value)
+  );
+  exp_rate_all.push(
+    parseFloat(document.getElementById("exp_weather_rate").value)
+  );
+  exp_rate_all.push(parseFloat(document.getElementById("ex_gold_rate").value));
+  exp_rate_all.push(
+    parseFloat(document.getElementById("exp_potion_rate").value)
+  );
+  exp_rate_all.push(parseFloat(document.getElementById("zero_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("elf_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("pendant_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("ring_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("burning_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("hyper_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("union_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("user_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("roon_rate").value));
+  return exp_rate_all;
+}
+
+function calc_additional_exp(additional_exp, type_additional_exp) {
+  let total_additional_exp = 100;
+  additional_exp = parseFloat(additional_exp);
+
+  document.getElementById(type_additional_exp).value = additional_exp;
+  let exp_rate_all = get_exp_rate_all();
+
+  for (let i = 0; i < 13; i++) {
+    total_additional_exp += exp_rate_all[i];
+  }
+
+  return total_additional_exp;
+}
+
+function do_jaehoek() {
+  let two_hour = parseInt(document.getElementById("hunt_per6min").value) * 20;
+
+  let mob_exp = parseInt(document.getElementById("mob_exp").value);
+
+  let hunt_per6min = parseInt(document.getElementById("hunt_per6min").value);
+
+  if (!hunt_per6min) {
+    document.getElementById("hunt_per6min").innerHTML = "";
+  }
+
+  let a_e =
+    parseFloat(document.getElementById("total_additional_exp").innerHTML) *
+    0.01;
+
+  let cur_level = document.getElementById("cur_level").value;
+  let exp_bar = exp_table[cur_level];
+
+  return (((two_hour * mob_exp * a_e) / exp_bar) * 100).toFixed(3);
+}
+
+function validate_input_value() {
+  let cur_level = parseInt(document.getElementById("cur_level").value);
+  let cur_exp_rate = parseFloat(document.getElementById("cur_exp_rate").value);
+  let mob_exp = parseInt(document.getElementById("mob_exp").value);
+  let hunt_per6min = parseInt(document.getElementById("hunt_per6min").value);
+
+  if (!hunt_per6min) {
+    document.getElementById("hour").innerHTML = "";
+    document.getElementById("2hour").innerHTML = "";
+    document.getElementById("30min").innerHTML = "";
+  }
+
+  if (cur_level && cur_exp_rate && mob_exp) {
+    if (!hunt_per6min) {
+      return 1;
+    } else {
+      return 0;
     }
-    else if(exp_coupon === "2"){
-        addition_exp += 100
-    }
-    else if(exp_coupon === "3"){
-        addition_exp += 200
-    } // 경쿠
-
-    if (exp_weather === "0");
-    else if(exp_weather === "1"){
-        addition_exp += 50
-    } // 경뿌
-
-    if (ex_gold === "0");
-    else if(ex_gold === "1"){
-        addition_exp += 10
-    } // 익골
-
-    if (exp_potion === "0");
-    else if(exp_potion === "1"){
-        addition_exp += 10
-    } // 경축비
-
-
-    if (zero === "0");
-    else if(zero === "1"){
-        addition_exp += 4
-    }
-    else if(zero === "2"){
-        addition_exp += 6
-    }
-    else if(zero === "3"){
-        addition_exp += 8
-    } 
-    else if(zero === "4"){
-        addition_exp += 10
-    } 
-    else if(zero === "5"){
-        addition_exp += 12
-    } // 제로
-
-    if (elf === "0");
-    else if(elf === "1"){
-        addition_exp += 10
-    }
-    else if(elf === "2"){
-        addition_exp += 15
-    } // 메르 링크
-
-    if (pendant === "0");
-    else if(pendant === "1"){
-        addition_exp += 30
-    }
-
-    if (ring === "0");
-    else if(ring === "1"){
-        addition_exp += 10
-    } // 혈반
-
-    if (burning === "0");
-    else if(burning === "1"){
-        addition_exp += 10
-    }
-    else if(burning === "2"){
-        addition_exp += 20
-    }
-    else if(burning === "3"){
-        addition_exp += 30
-    }
-    else if(burning === "4"){
-        addition_exp += 40
-    }
-    else if(burning === "5"){
-        addition_exp += 50
-    }
-    else if(burning === "6"){
-        addition_exp += 60
-    }
-    else if(burning === "7"){
-        addition_exp += 70
-    }
-    else if(burning === "8"){
-        addition_exp += 80
-    }
-    else if(burning === "9"){
-        addition_exp += 90
-    }
-    else if(burning === "10"){
-        addition_exp += 100
-    } // 필드 버닝
-
-    addition_exp += parseFloat(hyper) // 하이퍼
-    addition_exp += parseFloat(union) // 유니온 점령
-    addition_exp += parseFloat(user) // 추가
-    
-    mob_exp = Math.round(parseInt(mob_exp) * (1 + addition_exp * 0.01))
-
-    if(cur_exp_rate >= 100 || cur_exp_rate < 0){
-        return "유효하지 않은 경험치 % 값입니다."
-    }
-
-    let cur_exp_amount = exp_table[cur_level] * (cur_exp_rate * 0.01); // 현재 경험치량
-
-    let remain_exp = exp_table[cur_level] - cur_exp_amount
-
-    let amount_mob = Math.round(remain_exp / mob_exp)
-
-    return amount_mob
-
+  } else if (!cur_level) {
+    alert("현재 레벨이 입력되지 않았습니다.");
+    return 2;
+  } else if (!cur_exp_rate) {
+    alert("현재 경험치 %가 입력되지 않았습니다.");
+    return 2;
+  } else if (!mob_exp) {
+    alert("몹 경험치가 입력되지 않았습니다.");
+    return 2;
+  }
 }
