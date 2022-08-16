@@ -46,6 +46,7 @@ function get_exp_rate_all() {
   exp_rate_all.push(parseFloat(document.getElementById("union_rate").value));
   exp_rate_all.push(parseFloat(document.getElementById("user_rate").value));
   exp_rate_all.push(parseFloat(document.getElementById("roon_rate").value));
+  exp_rate_all.push(parseFloat(document.getElementById("loaded_rate").value));
   return exp_rate_all;
 }
 
@@ -56,7 +57,7 @@ function calc_additional_exp(additional_exp, type_additional_exp) {
   document.getElementById(type_additional_exp).value = additional_exp;
   let exp_rate_all = get_exp_rate_all();
 
-  for (let i = 0; i < 13; i++) {
+  for (let i = 0; i < 14; i++) {
     total_additional_exp += exp_rate_all[i];
   }
 
