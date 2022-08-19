@@ -1,22 +1,26 @@
 table{
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
   border-collapse: collapse;
   vertical-align: middle;
 }
 
 td{
+  border: none;
   border-color: #dee2e6;
   vertical-align: middle;
 }
 
-.mob{
-  border: none
+tbody{
+  border:none;
 }
+
+
 tr{
   border: none;
 }
+
 th {
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
   border-collapse: collapse;
 }
 

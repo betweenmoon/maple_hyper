@@ -13,6 +13,9 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <style type="text/css">
+          tr:hover { background-color: lightyellow; }
+      </style>
     <script src="../data/expTable.js"></script>
     <script src="../js/calcLevelUp.js"></script>
     <script src="../data/mob_exp.js"></script>
@@ -258,7 +261,7 @@
           </tr>
           <tr>
             <td>
-              <img src="../images/icons/ring.png" />
+              <img src="../images/icons/stat.png" />
             </td>
             <td>경험치 하이퍼 스탯</td>
             <td>
@@ -404,9 +407,107 @@
               </select>
             </td>
           </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/pc.png" />
+            </td>
+            <td>프리미엄 PC방</td>
+            <td>
+              <select
+                id="pc"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("pc").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "pc_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="30">있음</option>
+              </select>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+    <div style="width: 460px; margin-right: 1rem;">
+      <table class = "table" style = "width: 460px; margin-bottom: 0; border-bottom: none;">
+        <thead>
+          <tr>
+            <th colspan="2" style="text-align: center; width: 250px">
+              몬스터 검색
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="padding: 4px; height: 55.5px; border-color: #dee2e6;">
+              <input
+              type="text"
+              class="form-control nomargin"
+              id="mob_keyword"
+              style="width: 450px; height: 45.5px; border: none"
+              min="0"
+              max="300"
+              placeholder="몬스터 검색"
+              onchange='
+              document.getElementById("mob_list").innerHTML = "";
+              var query_mob = document.getElementById("mob_keyword").value;
+              var cnt = 0;
+              if(query_mob != ""){
+              for (var key in mob_info){
+                if(key.indexOf(query_mob) !== -1){
+                  var id = document.getElementById("mob_list")
+      
+                  var tag = document.createElement("tr")
+                  tag.setAttribute("class", "mob")
+                  tag.setAttribute("style", "cursor:pointer")
+                  tag.id = "mob_tr"
+                  tag.value = String(mob_info[key]["level"]) + "," + String(mob_info[key]["exp"])
+      
+                  var mob_name = document.createElement("td")
+
+                  mob_name.innerHTML= key
+                  mob_name.id = "mob_tr_child"
+      
+                  var mob_level = document.createElement("td") 
+                  mob_level.setAttribute("style", "width: 100px")
+                  mob_level.innerHTML = "Lv. " + String(mob_info[key]["level"])
+                  mob_level.id = "mob_tr_child"
+      
+                  tag.appendChild(mob_level)
+                  tag.appendChild(mob_name)
+                  id.appendChild(tag)
+                  cnt += 1
+                  if(cnt == 15){
+                    break;
+                  }
+                }
+              }
+            }
+            else{
+              document.getElementById("mob_list").innerHTML = "<td>검색어를 입력해주세요</td>";
+            }
+              if(document.getElementById("mob_list").innerHTML === ""){
+                document.getElementById("mob_list").innerHTML = "<td>검색 결과가 없습니다</td>";
+              }
+              '
+              required
+            />
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <table class = "table" >
+        <tbody id = "mob_list">
+
+        </tbody>
+      </table>
+  </div>
       <div style="width: 460px; margin-right: 1rem">
         <div style="width: 460px">
           <table class="table">
@@ -516,6 +617,19 @@
                   />
                 </td>
               </tr>
+              <tr>
+                <td>월드 구분</td>
+                <td>
+                  <select
+                    id="world"
+                    class="form-select"
+                    aria-label="Default select example"
+                    style="width: 200px"
+                  >
+                    <option selected value="1">일반</option>
+                    <option value="2">리부트</option>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -575,13 +689,13 @@
             onclick='
             let a = validate_input_value()
             if(a === 0){
-              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value)) + " 마리";
-              document.getElementById("hour").innerHTML = String((calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value) / (parseFloat(document.getElementById("hunt_per6min").value) * 10)).toFixed(2)) + " 시간";
+              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob()) + " 마리";
+              document.getElementById("hour").innerHTML = String((calc_amount_mob() / (parseFloat(document.getElementById("hunt_per6min").value) * 10)).toFixed(2)) + " 시간";
               document.getElementById("2hour").innerHTML = String(do_jaehoek()) + "%";
               document.getElementById("30min").innerHTML = String((do_jaehoek()/4).toFixed(3)) + "%";
             }
             else if(a === 1){
-              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob(document.getElementById("cur_level").value, document.getElementById("cur_exp_rate").value, document.getElementById("mob_exp").value, document.getElementById("exp_coupon").value, document.getElementById("exp_weather").value, document.getElementById("exGold").value, document.getElementById("expPotion").value, document.getElementById("zero").value, document.getElementById("elf").value, document.getElementById("pendant").value, document.getElementById("ring").value, document.getElementById("burning").value, document.getElementById("hyper").value, document.getElementById("union").value, document.getElementById("user").value)) + " 마리";
+              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob()) + " 마리";
             }
             '
           >
@@ -590,44 +704,7 @@
         </div>
         <br />
       </div>
-      <div style="width: 460px">
-        <input
-        type="text"
-        class="form-control"
-        id="mob_keyword"
-        style="width: 460px"
-        min="0"
-        max="300"
-        placeholder="몬스터 검색"
-        onchange='
-        var query_mob = document.getElementById("mob_keyword").value;
-        var cnt = 0;
-        for (var key in mob_info){
-          if(key.indexOf(query_mob) !== -1){
-            var id = document.getElementById("mob_list")
-
-            var tag = document.createElement("div")
-            tag.id = "mob_sele";
-            tag.value = mob_info[key]["exp"]
-
-            var exp = document.createElement("input")
-            exp.type = "hidden";
-            exp.id = "exp";
-
-            var node = document.createTextNode(key);
-            tag.appendChild(node)
-            tag.appendChild(exp)
-            id.appendChild(tag)
-          }
-        }
-        '
-        required
-      />
-      <div id ="mob_list">
-
-      </div>
-      </div>
-    </div>
+      
     <div id = "value_collect">
     <input id="default_rate" type="hidden" value="0" />
     <input id="exp_coupon_rate" type="hidden" value="0" />
@@ -644,14 +721,22 @@
     <input id="user_rate" type="hidden" value="0" />
     <input id="roon_rate" type="hidden" value="0" />
     <input id="loaded_rate" type="hidden" value="0" />
+    <input id="pc_rate" type="hidden" value="0" />
+    <input id = "mob_level" type = "hidden" value = "0"/>
     </div>
 
     <script>
       document.addEventListener('click',function(e){
-    if(e.target && e.target.id  == "mob_sele"){
-          document.getElementById("mob_exp").value = e.target.value;
-     }
- });
+        if(e.target.id == "mob_tr_child"){
+          mother = e.target.parentNode;
+          mother = mother.value
+          mother = mother.split(",")
+          let mob_exp = mother[1]
+          document.getElementById("mob_exp").value = mob_exp;
+          document.getElementById("mob_level").value = mother[0]
+        }
+      });
     </script>
+    </div>
   </body>
 </html>
