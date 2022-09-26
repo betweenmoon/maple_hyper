@@ -15,6 +15,9 @@ function calc_amount_mob() {
   mob_exp *= mob_penalty
 
   mob_exp = Math.round(parseInt(mob_exp) * (addition_exp * 0.01));
+  if(mob_exp == 0){
+    mob_exp = 1
+  }
 
   let cur_exp_amount = exp_table[cur_level] * (cur_exp_rate * 0.01); // 현재 경험치량
 
